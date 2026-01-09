@@ -48,6 +48,19 @@ const openai = process.env.OPENAI_API_KEY ? new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 }) : null
 
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({ 
+    status: 'ok', 
+    message: 'VendorCompare Backend API',
+    endpoints: {
+      health: '/health',
+      testOpenAI: '/test-openai',
+      upload: '/upload (POST)'
+    }
+  })
+})
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'VendorCompare Backend is running' })
