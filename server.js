@@ -311,6 +311,28 @@ Be precise with numbers. Only return valid JSON, no other text.`
   }
 })
 
+// Catch-all for debugging
+app.use((req, res, next) => {
+  console.log(`📥 ${req.method} ${req.path}`)
+  next()
+})
+
+// 404 handler
+app.use((req, res) => {
+  console.log(`❌ 404: ${req.method} ${req.path}`)
+  res.status(404).json({
+    error: 'Not Found',
+    method: req.method,
+    path: req.path,
+    availableEndpoints: {
+      'GET /': 'Root endpoint',
+      'GET /health': 'Health check',
+      'GET /test-openai': 'Test OpenAI',
+      'POST /upload': 'Upload quotes'
+    }
+  })
+})
+
 // Start server
 app.listen(PORT, HOST, () => {
   console.log('🚀 VendorCompare Backend Server')
